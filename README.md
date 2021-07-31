@@ -22,5 +22,5 @@ Working -
 Steps to run - 
 1. execute - python3 main.py - this will open a browser, login to your tradeview account and connect to paper trading. 
 2. Open the trading box by clicking on the icon shown in the image below -
-![alt text](./tradinWindow.png)
+![alt text](https://github.com/md-raghib/tradingBotPython/blob/access/tradingWindow.png)
 3. Let the code run. It will close at 3:00PM and sums up your profit for the day.
