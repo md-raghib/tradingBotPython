@@ -1,12 +1,13 @@
+
 ##################################################
 ## Description
-# This is the code for the trading bot.
-# You should execute this code on  an open market day @8:58AM.
-# this bot places order based on conditions acquired from the indicators RSI, MACD and EMA
-# Python code is used to create the condition and selenium is used to place the order from the browser
-# to get a web interface feel.
-# steps to execute and pre-requisites are mentioned in the readme file in the repo.
-##################################################
+# This is a test code for the trading bot.
+# You should execute this code before executing the main code.
+# This code is required to check all the functionality and proper working of the tradin bot
+# before executing the main code on an open market day.
+# This code fetches the data of the provided stock every five minutes.
+# The time to login to the tradingview is reduced to 60 sec
+# and sleep after every hit to the website is refreshed every 60 sec for a quick test
 ##################################################
 ## License_info
 ##################################################
@@ -15,7 +16,6 @@
 ## Email: happyengineer0101@gmail.com
 ## Status: DEV
 ##################################################
-
 from nsepy import get_history
 from datetime import date, datetime
 import os
@@ -39,7 +39,7 @@ last_order="sell"
 driver = webdriver.Chrome(executable_path="/Users/mrm/Downloads/chromedriver")
 driver.maximize_window()
 driver.get("https://in.tradingview.com/")
-time.sleep(120)
+time.sleep(60)
 
 #initiating tradingview handler to get the recomendation for sonata software for 15 min interval
 ssw = TA_Handler(
@@ -51,14 +51,14 @@ ssw = TA_Handler(
 
 
 while True:
-    if(current_time >= "09:30:00" and current_time <= "15:00:00"):
+    # if(current_time >= "09:30:00" and current_time <= "15:00:00"):
 
         rec = ssw.get_analysis()
         RSI = rec.indicators["RSI"]
         MACD = rec.indicators["MACD.macd"]
         EMA = rec.moving_averages["COMPUTE"]["EMA10"]
 
-        if ( RSI >= 30 and last_order=="sell" and MACD >= 0 and EMA == "BUY" and RSI <=70):
+        if ( RSI >= 30 and last_order=="sell" and MACD >= -3 and EMA == "BUY" and RSI <=70):
             print("Buying 1 stock of SONATSOFTW")
             last_order="buy"
             #buy 1 stock of SONATSOFTW
@@ -81,32 +81,32 @@ while True:
             driver.find_element_by_xpath("//button[1]/div[1]/span[2]").click 
         else:
             print("No adjustment required")
-    elif(current_time >= "15:00:00"):
-        print("Time to close for the day")
-        # #fetch open profit
-        open_profit = driver.find_element_by_xpath("//div[4]/div[1]/div     [1]/div[1]/div[2]/div[3]/div[1]").text
-        # print(open_profit)
-        # P = "1000"
-        print("Calculating profit :",open_profit)
-        break
-    else:
-        if(current_time >= "09:05:00"):
-            print("==========Getting Nifty and Bank Nifty opening price==========","\n\n")
-            nifty = get_history(symbol='NIFTY 50',
-                               start=date(int(y), int(m), int(d)),
-                               end=date(int(y), int(m), int(d)),
-                               index=True)
+    # elif(current_time >= "15:00:00"):
+    #     print("Time to close for the day")
+    #     # #fetch open profit
+    #     open_profit = driver.find_element_by_xpath("//div[4]/div[1]/div     [1]/div[1]/div[2]/div[3]/div[1]").text
+    #     # print(open_profit)
+    #     # P = "1000"
+    #     print("Calculating profit :",open_profit)
+    #     break
+    # else:
+    #     if(current_time >= "09:05:00"):
+    #         print("==========Getting Nifty and Bank Nifty opening price==========","\n\n")
+    #         nifty = get_history(symbol='NIFTY 50',
+    #                            start=date(int(y), int(m), int(d)),
+    #                            end=date(int(y), int(m), int(d)),
+    #                            index=True)
 
-            niftyBank = get_history(symbol='NIFTY BANK',
-                               start=date(int(y), int(m), int(d)),
-                               end=date(int(y), int(m), int(d)),
-                               index=True)
+    #         niftyBank = get_history(symbol='NIFTY BANK',
+    #                            start=date(int(y), int(m), int(d)),
+    #                            end=date(int(y), int(m), int(d)),
+    #                            index=True)
 
-            print("====NIFTY 50====")
-            print(nifty,"\n")
-            print("====BANK NIFTY====")
-            print(niftyBank,"\n")
-        else:
-            print("Waiting for market to open and bot to analyse market till 9:30")
+    #         print("====NIFTY 50====")
+    #         print(nifty,"\n")
+    #         print("====BANK NIFTY====")
+    #         print(niftyBank,"\n")
+    #     else:
+    #         print("Waiting for market to open and bot to analyse market till 9:30")
     
-    time.sleep(300)
+        time.sleep(60)
