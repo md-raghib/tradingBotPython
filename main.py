@@ -4,6 +4,7 @@ from datetime import date, datetime
 import os
 from tradingview_ta import TA_Handler, Interval, Exchange
 import time
+from selenium import webdriver
 
 os.system("figlet -c Python Trading Bot ")
 Today = date.today()
@@ -17,6 +18,12 @@ current_time = now.strftime("%H:%M:%S")
 #last order
 last_order="sell"
 
+#load chrome driver 
+driver = webdriver.Chrome(executable_path="/Users/mrm/Downloads/chromedriver")
+driver.maximize_window()
+driver.get("https://in.tradingview.com/")
+time.sleep(120)
+
 #initiating tradingview handler to get the recomendation for sonata software for 15 min interval
 ssw = TA_Handler(
     symbol="SONATSOFTW",
@@ -27,7 +34,7 @@ ssw = TA_Handler(
 
 
 while True:
-    if(current_time >= "09:30:00"):
+    if(current_time >= "09:30:00" and current_time <= "15:00:00"):
 
         rec = ssw.get_analysis()
         RSI = rec.indicators["RSI"]
@@ -38,20 +45,32 @@ while True:
             print("Buying 1 stock of SONATSOFTW")
             last_order="buy"
             #buy 1 stock of SONATSOFTW
+            driver.find_element_by_xpath("//div[8]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[2]").click()
+            #click on buy 1 NES:
+            driver.find_element_by_xpath("//div[1]/div[1]/div[6]/button[1]/         div[1]/span[2]").click()
         elif( RSI >= 30 and last_order=="buy" and EMA == "SELL"):
             print("Selling 1 stock of SONATSOFTW")
             last_order="sell"
             #sell 1 stock of SONATSOFTW 
+            driver.find_element_by_xpath("//body[1]/div[2]/div[8]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]").click()
+            time.sleep(2)
+            driver.find_element_by_xpath("//button[1]/div[1]/span[2]").click            ()
         elif( RSI >= 70 and last_order=="sell" and EMA == "SELL"):
             print("Selling 1 stock of SONATSOFTW")
             last_order="sell"
             #sell 1 stock of SONATSOFTW 
+            driver.find_element_by_xpath("//body[1]/div[2]/div[8]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]").click()
+            time.sleep(2)
+            driver.find_element_by_xpath("//button[1]/div[1]/span[2]").click 
         else:
             print("No trade")
-    elif(current_time == "15:00:00"):
+    elif(current_time >= "15:00:00"):
         print("Time to close for the day")
-        P = "1000"
-        print("Calculating profit :",P)
+        # #fetch open profit
+        open_profit = driver.find_element_by_xpath("//div[4]/div[1]/div     [1]/div[1]/div[2]/div[3]/div[1]").text
+        # print(open_profit)
+        # P = "1000"
+        print("Calculating profit :",open_profit)
         break
     else:
         if(current_time >= "09:05:00"):
@@ -66,9 +85,9 @@ while True:
                                end=date(int(y), int(m), int(d)),
                                index=True)
 
-            print("==========NIFTY 50==========")
+            print("====NIFTY 50====")
             print(nifty,"\n")
-            print("==========BANK NIFTY==========")
+            print("====BANK NIFTY====")
             print(niftyBank,"\n")
         else:
             print("Waiting for market to open and bot to analyse market till 9:30")
