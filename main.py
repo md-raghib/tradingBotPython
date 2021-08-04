@@ -2,7 +2,7 @@
 ## Description
 # This is the code for the trading bot.
 # You should execute this code on  an open market day @8:58AM.
-# this bot places order based on conditions acquired from the indicators RSI, MACD and EMA
+# this bot places order based on conditions acquired from the indicators RSI and EMA
 # Python code is used to create the condition and selenium is used to place the order from the browser
 # to get a web interface feel.
 # steps to execute and pre-requisites are mentioned in the readme file in the repo.
