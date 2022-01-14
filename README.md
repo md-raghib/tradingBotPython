@@ -17,7 +17,7 @@ Working -
 1. Run python3 main.py at 9:00 AM on open market days
 2. bot tries to read the nifty and banknifty current value
 3. bot runs forever, starting from 9:00AM till 03:00 PM in the interval of 5 mins.
-4. bot used strategies based on RSI, MACD and EMA ( please refer to google to understand more about these )
+4. bot used strategies based on RSI and EMA ( please refer to google to understand more about these )
 
 Steps to run - 
 1. execute - python3 main.py - this will open a browser, login to your tradeview account and connect to paper trading. 
