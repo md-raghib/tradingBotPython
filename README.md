@@ -5,7 +5,7 @@ prerequisite :
 1. Python3.*
 2. pip3 install nsepy
 3. pip3 install selenium
-4. chromedriver (based on the chrome version)
+4. pip3 install webdriver_manager
 
 
 Reference Document - 
